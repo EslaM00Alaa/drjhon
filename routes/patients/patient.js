@@ -2,7 +2,7 @@
 
 const express = require("express"),
   client = require("../../database/db"),
-  validatePatient = require("../../models/patient"),
+  {validatePatient,networkPatient} = require("../../models/patient"),
   router = express.Router();
 
 
@@ -16,6 +16,7 @@ const express = require("express"),
         return res.status(400).json({ error: error.details[0].message });
       }
   
+
       // Extract patient data from the request body
       const { id, name, phone, whatsapp, job, mail, questionans } = req.body;
   
@@ -62,8 +63,56 @@ const express = require("express"),
 
 
 
+  router.get("/patients/:id", async (req, res) => {
+    try {
+      // Extract the patient ID from the request parameters
+      const patientId = req.params.id;
+  
+      // Check if the ID is provided
+      if (!patientId) {
+        return res.status(400).json({ error: "Patient ID is required" });
+      }
+  
+      // Query the database to get the patient with the specified ID
+      const result = await client.query(
+        "SELECT * FROM patients WHERE id = $1",
+        [patientId]
+      );
+  
+      // Check if a patient with the specified ID was found
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Patient not found" });
+      }
+  
+      // Send the patient data as the response
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error("Error getting patient by ID:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+  
 
 
+router.post('/network', async (req, res) => {
+  try {
+    const { error } = networkPatient(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
+
+    const { parent_id, son_id } = req.body;
+
+    const query = 'INSERT INTO network (parent_id, son_id) VALUES ($1, $2) RETURNING *';
+    const values = [parent_id, son_id];
+    const result = await client.query(query, values);
+
+    res.status(201).json(result.rows[0]); // Return the newly created network entry
+  } catch (error) {
+    console.error("Error adding network entry:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 
 

@@ -13,4 +13,15 @@ function validatePatient(obj) {
   return schema.validate(obj);
 }
 
-module.exports = validatePatient;
+
+function networkPatient(obj) {
+  const schema = Joi.object({
+    parent_id: Joi.string().max(255).required(),
+    son_id: Joi.string().max(255).required()
+  });
+  return schema.validate(obj);
+}
+
+
+
+module.exports = {validatePatient , networkPatient};

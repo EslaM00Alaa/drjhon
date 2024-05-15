@@ -19,11 +19,20 @@ async function isReady() {
         job VARCHAR(255) ,
         mail VARCHAR(255) ,
         questionans VARCHAR(1000)      
+      );`,
+
+      `CREATE TABLE IF NOT EXISTS network (
+        id SERIAL PRIMARY KEY,
+        parent_id VARCHAR(255) REFERENCES patients(id),
+        son_id VARCHAR(255) REFERENCES patients(id)
+      );
+      
       );`
     ];
 
     const tablesToCheck = [
-      "patients"
+      "patients",
+      "network"
     ];
 
     let c = 0;
