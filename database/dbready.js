@@ -26,8 +26,7 @@ async function isReady() {
         parent_id VARCHAR(255) REFERENCES patients(id),
         son_id VARCHAR(255) REFERENCES patients(id)
       );
-      
-      );`
+      `
     ];
 
     const tablesToCheck = [
