@@ -3,12 +3,12 @@ const Joi = require("joi");
 function validatePatient(obj) {
   const schema = Joi.object({
     id: Joi.string().max(255).required(),
+    age: Joi.number().required(),
     name: Joi.string().max(255).required(),
     phone: Joi.string().max(255),
     whatsapp: Joi.string().max(255),
     job: Joi.string().max(255),
-    mail: Joi.string().email().max(255),
-    questionans: Joi.string().max(1000),
+    mail: Joi.string().email().max(255)
   });
   return schema.validate(obj);
 }

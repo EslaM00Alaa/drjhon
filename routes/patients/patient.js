@@ -18,12 +18,12 @@ const express = require("express"),
   
 
       // Extract patient data from the request body
-      const { id, name, phone, whatsapp, job, mail, questionans } = req.body;
+      const { id, name,age,phone, whatsapp, job, mail } = req.body;
   
       // Insert the new patient into the database
       const result = await client.query(
-        "INSERT INTO patients (id, name, phone, whatsapp, job, mail, questionans) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-        [id, name, phone, whatsapp, job, mail, questionans]
+        "INSERT INTO patients (id, name,age,phone, whatsapp, job, mail) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+        [id, name,age,phone, whatsapp, job, mail]
       );
   
       // Send the newly added patient as the response

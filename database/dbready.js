@@ -11,15 +11,16 @@ async function isReady() {
     `;
 
     const createTableQueries =[
-      `CREATE TABLE IF NOT EXISTS patients  (
+      `CREATE TABLE IF NOT EXISTS patients (
         id VARCHAR(255) PRIMARY KEY,
-        name VARCHAR(255) NOT NULL ,
-        phone VARCHAR(255) ,
-        whatsapp VARCHAR(255) ,
-        job VARCHAR(255) ,
-        mail VARCHAR(255) ,
-        questionans VARCHAR(1000)      
-      );`,
+        name VARCHAR(255) NOT NULL,
+        age INT NOT NULL,
+        phone VARCHAR(255),
+        whatsapp VARCHAR(255),
+        job VARCHAR(255),
+        mail VARCHAR(255)
+    );
+    `,
 
       `CREATE TABLE IF NOT EXISTS network (
         id SERIAL PRIMARY KEY,
